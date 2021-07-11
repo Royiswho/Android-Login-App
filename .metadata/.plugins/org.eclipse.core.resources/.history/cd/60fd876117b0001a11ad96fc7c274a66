@@ -1,0 +1,74 @@
+package Divide_And_Conquer;
+
+public class MaxSubarray {
+	
+	// METHODS ============================================ 
+	
+	// *******************************************
+	public static int[] maxSubarr(int[] anArr, int aBeg, int aBegLim, int anEnd){
+	/*
+	Intent: Sub-array with greatest sum, starting in [aBeg, aBegLim]
+		
+	Pre: 0 <= aBeg <= aBegLim <= anEnd < anArr.length
+	
+	Definition (Value of subarray): For aBeg<=i<=j<=anEnd,
+	sum(i,j) denotes anArr[i] + anArr[i+1] + ... + anArr[j]
+		
+	Post1 (Relationship within returnA)
+	aBeg <= returnA[0] <= aBegLim AND returnA[0] <= returnA[1] <= anEnd 
+	AND returnA[2] = sum( returnA[0], returnA[1] )
+	
+	Post2: returnA[2] is maximal		
+	*/ 
+	
+		//----SG1 (Relationship within returnA = Post1)
+		// aBeg <= returnA[0] <= aBegLim AND returnA[0] <= returnA[1] <= anEnd 
+		// AND returnA[2] = sum( returnA[0], returnA[1] )	 
+				/*fulfilled together with*/		
+		//----SG2 (For subsequ's starting aBeg): sumABegIAnEnd = sum(aBeg,iAnEnd) 
+		// AND sum(aBeg, returnA[2]) >= sum(aBeg,j) for all j<=anEnd] 
+
+		int iAnEnd=aBeg;
+		int sumABegIAnEnd = anArr[aBeg];
+		int[] returnA = new int[]{aBeg, iAnEnd, anArr[aBeg]};
+		
+		//----SG3 (Must start at beg?): aBeg<aBegLim -OR- 
+		// aBeg=aBegLim AND iAnEnd=anEnd AND this has returned
+		
+		if( aBegLim==aBeg ){ 			
+			while( iAnEnd<anEnd ){  // SG3
+				++iAnEnd;  // perturb
+				sumABegIAnEnd += anArr[iAnEnd];  // for SG2
+				// Restore SG1 and SG2
+				if( sumABegIAnEnd > returnA[2] ){
+					returnA[1] = iAnEnd;
+					returnA[2] = sumABegIAnEnd;
+				}
+			}
+			return returnA;
+		}
+		
+		//----SG4 (Originations in L half): (a) mid = (aBeg+aBegLim)/2
+		// AND (b) returnA[2] >= sum(i,j) for all aBeg<=i<=mid and i<=j<=anEnd
+		
+		final int mid = (aBeg+aBegLim)/2;  // (a) 
+		returnA = maxSubarr(anArr, aBeg, mid, anEnd);   // (b),SG1,2-3 unaff.
+		System.out.println(returnA)
+		//----SG5 (Originations in R half): (a) returnA[2] >= sum(u,v)
+		// forall mid<u<=aBegLim & (b) u<=v<=anEnd & (c) t.h.r.
+	
+		int[] rResult = maxSubarr( anArr, mid+1, aBegLim, anEnd );
+		System.out.println(rResult)
+		returnA = ( rResult[2] > returnA[2] ) 
+				?rResult :returnA;  // (a),(b),SG1,2-3 unaff.,4	 		
+		return returnA;  // (c) 		
+	}
+
+
+	public static void main(String args[]) {
+		int[] arr = new int[]  // digits correctly entered
+				 {13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7};
+				//0   1  2   3  4  5   6   7  8  9 10 11  12 13 14 15
+		System.out.println(maxSubarr(arr, 7, 7, 15)[2]); 
+	}
+}

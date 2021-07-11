@@ -1,0 +1,98 @@
+package Divide_And_Conquer;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import junit.framework.TestCase;
+
+public class TestMaxSubarray extends TestCase {
+	
+	//*************************************************************
+	public void testFindMaxSubarray() { 
+		
+		// SG1-2-----------------------------------
+		//SG1-2#1
+		MaxSubarray mS = new MaxSubarray();
+		int[] arr = {1};
+		assertEquals(1, mS.maxSubarr(arr, 0, 0, 0)[2]);
+		//SG1-2#2 
+		arr = new int[] {1,2};
+		assertEquals(3, mS.maxSubarr(arr, 0, 0, 1)[2]);
+		//SG1-2#3 
+		arr = new int[] {1,-1};
+		assertEquals(1, mS.maxSubarr(arr, 0, 0, 1)[2]);
+		//SG1-2#4 
+		arr = new int[] {7,-1,-2,5};
+		assertEquals(-1, mS.maxSubarr(arr, 1, 1, 2)[2]);
+		//SG1-2#5 Cormen et al Fig 4.1 p68
+		arr = new int[]  // digits correctly entered
+		 {13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7};
+		//0   1  2   3  4  5   6   7  8  9 10 11  12 13 14 15
+		assertEquals(43, mS.maxSubarr(arr, 7, 7, 15)[2]);
+ 	
+		// SG3-5 ----------------------------------
+		//SG3-5#1
+		arr = new int[] {1,1,1};
+		assertEquals(1, mS.maxSubarr(arr, 2, 2, 2)[2]);
+		assertEquals(3, mS.maxSubarr(arr, 0, 1, 2)[2]);
+		assertEquals(3, mS.maxSubarr(arr, 0, 2, 2)[2]);
+		//SG3-5#2
+		arr = new int[] {1,1,1,2,3};
+		assertEquals(8, mS.maxSubarr(arr, 0, 4, 4)[2]);
+		//SG3-5#3
+		arr = new int[] {1,1,-1,2,3};
+		assertEquals(6, mS.maxSubarr(arr, 0, 4, 4)[2]);
+		//SG3-5#4
+		arr = new int[] {-1,1,1,-1,2,3,-1};
+		assertEquals(6, mS.maxSubarr(arr, 0, 5, 6)[2]);
+		//SG3-5#5
+		arr = new int[] {9,1,1,-1,-2,2,-1};
+		//               0 1 2  3  4 5  6
+		assertEquals(11, mS.maxSubarr(arr, 0, 2, 2)[2]);
+		assertEquals(11, mS.maxSubarr(arr, 0, 3, 2)[2]);
+		assertEquals(11, mS.maxSubarr(arr, 0, 4, 2)[2]);
+		assertEquals(11, mS.maxSubarr(arr, 0, 5, 2)[2]);
+		//SG3-5#6 Cormen et al Fig 4.1 p68
+		arr = new int[]  // digits correctly entered
+		 {13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7};
+		//0   1  2   3  4  5   6   7  8  9 10 11  12 13 14 15
+		assertEquals(38, mS.maxSubarr(arr, 6, 8, 8)[2]);
+		assertEquals(38, mS.maxSubarr(arr, 5, 9, 9)[2]);
+		
+		//SG3-5#7
+		arr = new int[] {9,1,1};
+		assertEquals(11, mS.maxSubarr(arr, 0, 2, 2)[2]);
+		
+		// Nominal Cases ---------------------------
+		//N#1
+		arr = new int[] {9,1,1,-1,-2,2,-1};
+		//               0 1 2  3  4 5  6
+		assertEquals(2, mS.maxSubarr(arr, 3, 6, 6)[2]);
+		assertEquals(11, mS.maxSubarr(arr, 0, 6, 6)[2]);
+		//N#2 Cormen et al Fig 4.1 p68
+		arr = new int[]  // digits correctly entered
+		 {13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7};
+		//0   1  2   3  4  5   6   7  8  9 10 11  12 13 14 15
+		assertEquals(43, mS.maxSubarr(arr, 0, 15, 15)[2]);
+		assertEquals(25, mS.maxSubarr(arr, 8, 15, 15)[2]);
+		assertEquals(8, mS.maxSubarr(arr, 8, 15, 15)[0]);
+		assertEquals(10, mS.maxSubarr(arr, 8, 15, 15)[1]);
+		assertEquals(18, mS.maxSubarr(arr, 11, 15, 15)[2]);
+		
+		// Corner Cases ----------------------------
+		//C#1 Cormen et al Fig 4.1 p68
+		arr = new int[]  // digits correctly entered
+		 {13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7};
+		//0   1  2   3  4  5   6   7  8  9 10 11  12 13 14 15
+		assertEquals(13, mS.maxSubarr(arr, 0, 0, 0)[2]);
+		assertEquals(7, mS.maxSubarr(arr, 15, 15, 15)[2]);
+		//C#2
+		arr = new int[] {1,1,1,1,1,1,1};
+		assertEquals(7, mS.maxSubarr(arr, 0, 6, 6)[2]);
+		//C#3
+		arr = new int[] {1,-1,1,-1,1,-1,1};
+		assertEquals(1, mS.maxSubarr(arr, 0, 6, 6)[2]);
+	}
+}
+
